@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PixelBlast from './PixelBlast';
+import HeroSection from './HeroSection';
 import LiquidTextCapabilities from './LiquidTextCapabilities';
 import SecuritySection from './SecuritySection';
 
@@ -79,109 +80,8 @@ const MainLanding = () => {
         </button>
       </nav>
 
-      {/* Hero Section */}
-      <header className="relative z-10 max-w-7xl mx-auto px-6 pt-12 pb-24 flex flex-col lg:flex-row items-center justify-between gap-12">
-        <div className="flex-1 max-w-2xl text-center lg:text-left">
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/60 backdrop-blur-md mb-6 shadow-[0_0_15px_rgba(5,150,105,0.25)]">
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-            <span className="text-xs font-mono uppercase tracking-widest text-emerald-300">
-              SURVEX OS // NEURAL SYNTHESIS ENGINE
-            </span>
-          </div>
-
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-100 leading-[1.1]">
-            Elevate Human Cognition with <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-200">Cybernetic Precision.</span>
-          </h1>
-
-          <p className="mt-6 text-base sm:text-lg text-slate-400 leading-relaxed">
-            SurveX seamlessly integrates autonomous neural telemetry, low-latency machine synchronization, and adaptive quantum processing into a unified cyborg interface.
-          </p>
-
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-            <button className="w-full sm:w-auto px-8 py-3.5 text-xs font-mono uppercase tracking-widest font-semibold text-black bg-gradient-to-r from-emerald-400 to-teal-300 rounded-xl shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:shadow-[0_0_35px_rgba(16,185,129,0.6)] hover:scale-[1.02] transition-all cursor-pointer">
-              Initialize Neural Link
-            </button>
-            <a href="#specs" className="w-full sm:w-auto px-8 py-3.5 text-xs font-mono uppercase tracking-widest font-medium text-emerald-300 bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 rounded-xl backdrop-blur-md transition-all cursor-pointer text-center">
-              Explore Specs
-            </a>
-          </div>
-        </div>
-
-        {/* Modern Cybernetic Interactive Interface Showcase */}
-        <div className="flex-1 w-full max-w-lg bg-slate-950/80 border border-emerald-500/30 rounded-3xl p-6 backdrop-blur-2xl shadow-[0_0_60px_rgba(5,150,105,0.2)] relative overflow-hidden group">
-          {/* Subtle PixelBlast Effect inside Showcase */}
-          <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
-            <PixelBlast
-              variant="diamond"
-              pixelSize={4}
-              color="#059669"
-              patternScale={2}
-              patternDensity={1}
-              liquid={false}
-              enableRipples={true}
-              speed={0.4}
-              edgeFade={0.1}
-            />
-          </div>
-
-          <div className="relative z-10 space-y-6">
-            {/* Top Bar Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
-                <div className="w-3 h-3 rounded-full bg-teal-500/40" />
-                <div className="w-3 h-3 rounded-full bg-green-500/20" />
-              </div>
-              <span className="text-xs font-mono tracking-widest text-emerald-400 uppercase bg-emerald-950/80 px-3 py-1 rounded-full border border-emerald-500/30">
-                Cybernetic Hub v4.2
-              </span>
-            </div>
-
-            {/* Neural Audio / Frequency Waveform Visualizer */}
-            <div className="bg-black/50 border border-emerald-900/50 rounded-2xl p-5 space-y-3">
-              <div className="flex items-center justify-between text-xs font-mono">
-                <span className="text-slate-400">Cognitive Stream Output</span>
-                <span className="text-emerald-400 font-bold">120 Hz Active</span>
-              </div>
-              <div className="flex items-end justify-between h-14 gap-1.5 px-2">
-                {[40, 65, 30, 85, 95, 45, 70, 90, 60, 100, 75, 50, 80, 65, 40].map((h, i) => (
-                  <div
-                    key={i}
-                    className="flex-1 bg-gradient-to-t from-emerald-600 to-teal-300 rounded-t transition-all duration-300 animate-pulse"
-                    style={{ height: `${h}%`, animationDelay: `${i * 0.1}s` }}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Modern Metrics Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-black/40 border border-emerald-900/40 rounded-xl p-4">
-                <div className="text-[11px] font-mono text-slate-400 uppercase">Throughput</div>
-                <div className="text-xl font-extrabold text-emerald-300 font-mono mt-1">4.8 GB/s</div>
-                <div className="text-[10px] text-emerald-500 font-mono mt-1">↑ 12% Optimized</div>
-              </div>
-
-              <div className="bg-black/40 border border-emerald-900/40 rounded-xl p-4">
-                <div className="text-[11px] font-mono text-slate-400 uppercase">Mesh Health</div>
-                <div className="text-xl font-extrabold text-emerald-300 font-mono mt-1">100% Secure</div>
-                <div className="text-[10px] text-emerald-500 font-mono mt-1">Quantum Encryption</div>
-              </div>
-            </div>
-
-            {/* Action Bar Indicator */}
-            <div className="pt-2 flex items-center justify-between text-xs font-mono text-emerald-400">
-              <span className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-                Interface Synchronized
-              </span>
-              <a href="#mesh" className="text-[11px] uppercase tracking-wider text-emerald-300 hover:text-white underline underline-offset-4 cursor-pointer">
-                View Diagnostics →
-              </a>
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Modular Hero Section */}
+      <HeroSection />
 
       {/* Scroll-Driven Liquid Text Capabilities Section */}
       <LiquidTextCapabilities />
