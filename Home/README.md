@@ -1,11 +1,11 @@
-# 🏆 SurveX // Cyborg Landing Page
+# SurveX // Cyborg Landing Page
 
 > **Made for IIT Bombay Techfest**  
 > An ultra-premium, interactive 3D web experience showcasing **SurveX**—the next-generation autonomous cybernetic operating platform.
 
 ---
 
-## 🌟 Project Overview
+## Project Overview
 
 **SurveX // Cyborg** is a futuristic, highly immersive web application designed to demonstrate the convergence of human cognition, autonomous neural telemetry, and quantum-encrypted cybernetics.
 
@@ -13,7 +13,7 @@ Built with cutting-edge web technologies, real-time WebGL shaders, 3D point-clou
 
 ---
 
-## 🎨 Design UI & Aesthetic Highlights
+## Design UI & Aesthetic Highlights
 
 The user interface follows a curated **Cyber Emerald & Deep Obsidian Black** theme (`#000000`, `#030d0a`, `#059669`, `#10b981`, `#a7f3d0`).
 
@@ -29,7 +29,7 @@ Key UI design features include:
 
 ---
 
-## 🚀 Key Page Sections & Architecture
+## Key Page Sections & Architecture
 
 ### 1. 3-Second Intro Scene (`IntroScene.jsx`)
 - Displays 3D **SurveX // Cyborg** brand name using `DepthText` over an active `MoltenMetal` WebGL liquid green metal background.
@@ -62,7 +62,7 @@ Key UI design features include:
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **Core Framework**: React 19 (Vite 8)
 - **Routing**: React Router v7 (`react-router-dom`)
@@ -72,7 +72,7 @@ Key UI design features include:
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 Cyborg/
@@ -101,7 +101,7 @@ Cyborg/
 
 ---
 
-## 💻 Getting Started & Running Locally
+## Getting Started & Running Locally
 
 ### Prerequisites
 - Node.js (v18+ recommended)
@@ -132,6 +132,6 @@ Cyborg/
 
 ---
 
-<p center="text-center" align="center">
+<p align="center">
   <b>Designed & Developed for IIT Bombay Techfest 2026</b>
 </p>
