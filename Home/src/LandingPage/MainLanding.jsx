@@ -1,13 +1,37 @@
 import React from 'react';
+import PixelBlast from './PixelBlast';
 
 const MainLanding = () => {
   return (
     <div className="relative min-h-screen w-full bg-black text-emerald-50 selection:bg-emerald-500 selection:text-black overflow-x-hidden">
+      {/* Interactive PixelBlast Background for Hero Section */}
+      <div className="absolute inset-0 z-0 h-[900px] pointer-events-auto opacity-40">
+        <PixelBlast
+          variant="circle"
+          pixelSize={6}
+          color="#10b981"
+          patternScale={3}
+          patternDensity={1.2}
+          pixelSizeJitter={0.5}
+          enableRipples={true}
+          rippleSpeed={0.4}
+          rippleThickness={0.12}
+          rippleIntensityScale={1.5}
+          liquid={true}
+          liquidStrength={0.12}
+          liquidRadius={1.2}
+          liquidWobbleSpeed={5}
+          speed={0.6}
+          edgeFade={0.35}
+          transparent={true}
+        />
+      </div>
+
       {/* Ambient Grid Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#05966910_1px,transparent_1px),linear-gradient(to_bottom,#05966910_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+      <div className="absolute inset-0 z-1 bg-[linear-gradient(to_right,#05966910_1px,transparent_1px),linear-gradient(to_bottom,#05966910_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
 
       {/* Glow Orbs */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-500/10 blur-[180px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-500/15 blur-[180px] rounded-full pointer-events-none" />
 
       {/* Navbar */}
       <nav className="relative z-20 w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
@@ -33,7 +57,7 @@ const MainLanding = () => {
       {/* Hero Section */}
       <header className="relative z-10 max-w-7xl mx-auto px-6 pt-16 pb-24 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-12">
         <div className="flex-1 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-950/40 backdrop-blur-md mb-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-950/60 backdrop-blur-md mb-6">
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="text-xs font-mono uppercase tracking-widest text-emerald-300">
               NEXT-GEN CYBORG PLATFORM
@@ -58,41 +82,55 @@ const MainLanding = () => {
           </div>
         </div>
 
-        {/* Interactive Hologram Telemetry Box */}
-        <div className="flex-1 w-full max-w-md bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-6 backdrop-blur-xl shadow-[0_0_50px_rgba(5,150,105,0.15)] relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
-          
-          <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60 text-xs font-mono text-emerald-400">
-            <span>LIVE TELEMETRY</span>
-            <span>SYSTEM // ACTIVE</span>
+        {/* Interactive Hologram Telemetry Box with PixelBlast Backdrop */}
+        <div className="flex-1 w-full max-w-md bg-black/60 border border-emerald-500/40 rounded-2xl p-6 backdrop-blur-xl shadow-[0_0_50px_rgba(5,150,105,0.25)] relative overflow-hidden group">
+          <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
+            <PixelBlast
+              variant="diamond"
+              pixelSize={4}
+              color="#059669"
+              patternScale={2}
+              patternDensity={1}
+              liquid={false}
+              enableRipples={true}
+              speed={0.4}
+              edgeFade={0.1}
+            />
           </div>
 
-          <div className="py-6 space-y-4 font-mono text-xs">
-            <div className="flex justify-between items-center">
-              <span className="text-slate-400">NEURAL HANDSHAKE</span>
-              <span className="text-emerald-300 font-bold">99.98% SYNC</span>
-            </div>
-            <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
-              <div className="bg-emerald-400 h-full w-[99.98%] shadow-[0_0_8px_#10b981]" />
+          <div className="relative z-10">
+            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60 text-xs font-mono text-emerald-400">
+              <span>LIVE TELEMETRY</span>
+              <span>SYSTEM // ACTIVE</span>
             </div>
 
-            <div className="flex justify-between items-center pt-2">
-              <span className="text-slate-400">SIGNAL LATENCY</span>
-              <span className="text-emerald-300 font-bold">0.82 ms</span>
-            </div>
-            <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
-              <div className="bg-emerald-400 h-full w-[92%]" />
+            <div className="py-6 space-y-4 font-mono text-xs">
+              <div className="flex justify-between items-center">
+                <span className="text-slate-400">NEURAL HANDSHAKE</span>
+                <span className="text-emerald-300 font-bold">99.98% SYNC</span>
+              </div>
+              <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                <div className="bg-emerald-400 h-full w-[99.98%] shadow-[0_0_8px_#10b981]" />
+              </div>
+
+              <div className="flex justify-between items-center pt-2">
+                <span className="text-slate-400">SIGNAL LATENCY</span>
+                <span className="text-emerald-300 font-bold">0.82 ms</span>
+              </div>
+              <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                <div className="bg-emerald-400 h-full w-[92%]" />
+              </div>
+
+              <div className="flex justify-between items-center pt-2">
+                <span className="text-slate-400">CYBERNETIC NODES</span>
+                <span className="text-emerald-300 font-bold">16,384 ONLINE</span>
+              </div>
             </div>
 
-            <div className="flex justify-between items-center pt-2">
-              <span className="text-slate-400">CYBERNETIC NODES</span>
-              <span className="text-emerald-300 font-bold">16,384 ONLINE</span>
+            <div className="pt-4 border-t border-emerald-900/60 flex items-center justify-between text-[11px] font-mono text-emerald-400">
+              <span>CORE STATUS: NOMINAL</span>
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
             </div>
-          </div>
-
-          <div className="pt-4 border-t border-emerald-900/60 flex items-center justify-between text-[11px] font-mono text-emerald-500">
-            <span>CORE STATUS: NOMINAL</span>
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
           </div>
         </div>
       </header>
