@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Renderer, Program, Mesh, Triangle } from 'ogl';
 
 const hexToRgb = hex => {
@@ -123,20 +123,32 @@ const MoltenMetal = ({
   className = ''
 }) => {
   const containerRef = useRef(null);
+  const [webGlSupported, setWebGlSupported] = useState(true);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    const renderer = new Renderer({
-      webgl: 2,
-      alpha: true,
-      premultipliedAlpha: true,
-      antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
-    });
+    let renderer;
+    try {
+      renderer = new Renderer({
+        webgl: 2,
+        alpha: true,
+        premultipliedAlpha: true,
+        antialias: false,
+        dpr: Math.min(window.devicePixelRatio || 1, 2)
+      });
+    } catch (e) {
+      setWebGlSupported(false);
+      return;
+    }
 
     const gl = renderer.gl;
+    if (!gl) {
+      setWebGlSupported(false);
+      return;
+    }
+
     gl.clearColor(0, 0, 0, 0);
     const canvas = gl.canvas;
     canvas.style.width = '100%';
@@ -196,15 +208,28 @@ const MoltenMetal = ({
 
     const handleMouseMove = e => {
       const rect = canvas.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
       targetMouse[0] = (e.clientX - rect.left) / rect.width;
       targetMouse[1] = 1.0 - (e.clientY - rect.top) / rect.height;
     };
+
+    const handleTouchMove = e => {
+      if (e.touches && e.touches[0]) {
+        const rect = canvas.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        targetMouse[0] = (e.touches[0].clientX - rect.left) / rect.width;
+        targetMouse[1] = 1.0 - (e.touches[0].clientY - rect.top) / rect.height;
+      }
+    };
+
     const handleMouseLeave = () => {
       targetMouse[0] = 0.5;
       targetMouse[1] = 0.5;
     };
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseleave', handleMouseLeave);
+
+    canvas.addEventListener('mousemove', handleMouseMove, { passive: true });
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: true });
+    canvas.addEventListener('mouseleave', handleMouseLeave, { passive: true });
 
     let raf = 0;
     let isVisible = true;
@@ -254,10 +279,13 @@ const MoltenMetal = ({
       io.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
       canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('touchmove', handleTouchMove);
       canvas.removeEventListener('mouseleave', handleMouseLeave);
       ctxMap.delete(container);
       try {
-        container.removeChild(canvas);
+        if (canvas.parentElement === container) {
+          container.removeChild(canvas);
+        }
       } catch {}
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
@@ -320,6 +348,14 @@ const MoltenMetal = ({
     mouseStrength,
     opacity
   ]);
+
+  if (!webGlSupported) {
+    return (
+      <div
+        className={`relative h-full w-full bg-gradient-to-br from-emerald-950 via-slate-950 to-black ${className}`.trim()}
+      />
+    );
+  }
 
   return <div ref={containerRef} className={`relative h-full w-full overflow-hidden ${className}`.trim()} />;
 };

@@ -54,7 +54,7 @@ const CapabilityCard = ({ item, index }) => {
     const handleScroll = () => {
       if (!cardRef.current) return;
       const rect = cardRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
+      const windowHeight = window.innerHeight || 800;
 
       const startTrigger = windowHeight * 0.88;
       const endTrigger = windowHeight * 0.32;
@@ -74,7 +74,7 @@ const CapabilityCard = ({ item, index }) => {
   }, [isHovered]);
 
   // Liquid Math
-  const waveHeight = isHovered ? 15 : 10;
+  const waveHeight = isHovered ? 14 : 9;
   const fillPercent = fillProgress * 100;
   const liquidY = 100 - fillPercent;
   const wave1 = Math.sin(time + index * 1.5) * waveHeight;
@@ -86,7 +86,7 @@ const CapabilityCard = ({ item, index }) => {
       ref={cardRef}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative w-full bg-slate-950/80 border border-emerald-900/40 hover:border-emerald-500/50 rounded-3xl p-6 sm:p-10 backdrop-blur-xl transition-all duration-500 overflow-hidden group shadow-[0_0_40px_rgba(5,150,105,0.08)] hover:shadow-[0_0_60px_rgba(16,185,129,0.18)]"
+      className="relative w-full bg-slate-950/80 border border-emerald-900/40 hover:border-emerald-500/50 rounded-3xl p-5 sm:p-10 backdrop-blur-xl transition-all duration-500 overflow-hidden group shadow-[0_0_40px_rgba(5,150,105,0.08)] hover:shadow-[0_0_60px_rgba(16,185,129,0.18)]"
     >
       {/* Background Ambient Glow */}
       <div 
@@ -113,19 +113,19 @@ const CapabilityCard = ({ item, index }) => {
         </div>
       </div>
 
-      {/* Liquid Text SVG Reveal */}
-      <div className="relative my-6 select-none">
+      {/* Responsive Liquid Text SVG Reveal */}
+      <div className="relative my-4 select-none w-full">
         {reducedMotion ? (
           <h2
-            className="text-3xl sm:text-5xl lg:text-6xl font-black font-mono tracking-tight text-emerald-400 transition-opacity duration-700"
+            className="text-2xl sm:text-4xl lg:text-5xl font-black font-mono tracking-tight text-emerald-400 transition-opacity duration-700 break-words"
             style={{ opacity: Math.max(0.25, fillProgress) }}
           >
             {item.title}
           </h2>
         ) : (
-          <div className="relative w-full overflow-hidden py-2">
+          <div className="relative w-full overflow-hidden py-1">
             <svg
-              className="w-full h-auto max-h-36 min-h-16 overflow-visible"
+              className="w-full h-auto max-h-36 min-h-12 overflow-visible"
               viewBox="0 0 950 120"
               preserveAspectRatio="xMinYMid meet"
             >
@@ -173,14 +173,16 @@ const CapabilityCard = ({ item, index }) => {
                 </clipPath>
               </defs>
 
-              {/* 1. Thin Outline Text (Initial Unfilled State) */}
+              {/* 1. Thin Outline Text */}
               <text
                 x="0"
                 y="85"
-                fontSize="64"
+                fontSize="56"
                 fontWeight="900"
                 fontFamily="system-ui, sans-serif"
                 letterSpacing="-0.03em"
+                textLength="930"
+                lengthAdjust="spacingAndGlyphs"
                 fill="none"
                 stroke="#065f46"
                 strokeWidth="1.8"
@@ -189,30 +191,34 @@ const CapabilityCard = ({ item, index }) => {
                 {item.title}
               </text>
 
-              {/* 2. Secondary Liquid Layer (Slightly Translucent Depth Fill) */}
+              {/* 2. Secondary Translucent Liquid Layer */}
               <g clipPath={`url(#liquid-clip-sec-${item.id})`} className="opacity-40">
                 <text
                   x="0"
                   y="85"
-                  fontSize="64"
+                  fontSize="56"
                   fontWeight="900"
                   fontFamily="system-ui, sans-serif"
                   letterSpacing="-0.03em"
+                  textLength="930"
+                  lengthAdjust="spacingAndGlyphs"
                   fill="#047857"
                 >
                   {item.title}
                 </text>
               </g>
 
-              {/* 3. Primary Liquid Filled Text (Clipped by Main Wave) */}
+              {/* 3. Primary Liquid Filled Text */}
               <g clipPath={`url(#liquid-clip-primary-${item.id})`}>
                 <text
                   x="0"
                   y="85"
-                  fontSize="64"
+                  fontSize="56"
                   fontWeight="900"
                   fontFamily="system-ui, sans-serif"
                   letterSpacing="-0.03em"
+                  textLength="930"
+                  lengthAdjust="spacingAndGlyphs"
                   fill={`url(#liquid-grad-v2-${item.id})`}
                   filter={`url(#glow-high-${item.id})`}
                 >
@@ -256,7 +262,7 @@ const CapabilityCard = ({ item, index }) => {
       </p>
 
       {/* Tech Specifications Chips */}
-      <div className="mt-6 flex flex-wrap gap-2">
+      <div className="mt-5 flex flex-wrap gap-2">
         {item.specs.map((spec, sIdx) => (
           <span
             key={sIdx}

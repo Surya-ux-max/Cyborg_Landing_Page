@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 const CyberGlobe = ({ className = '' }) => {
   const containerRef = useRef(null);
+  const [isSupported, setIsSupported] = useState(true);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -16,7 +17,14 @@ const CyberGlobe = ({ className = '' }) => {
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.z = 280;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
+    } catch (e) {
+      setIsSupported(false);
+      return;
+    }
+
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     container.appendChild(renderer.domElement);
@@ -32,7 +40,6 @@ const CyberGlobe = ({ className = '' }) => {
     const colorHighlight = new THREE.Color('#a7f3d0');
 
     for (let i = 0; i < count; i++) {
-      // Uniform point distribution on sphere
       const phi = Math.acos(-1 + (2 * i) / count);
       const theta = Math.sqrt(count * Math.PI) * phi;
 
@@ -44,7 +51,6 @@ const CyberGlobe = ({ className = '' }) => {
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = z;
 
-      // Color variation
       const mix = Math.random();
       const c = mix > 0.8 ? colorHighlight : mix > 0.4 ? colorPrimary : colorSecondary;
       colors[i * 3] = c.r;
@@ -67,7 +73,7 @@ const CyberGlobe = ({ className = '' }) => {
     const pointsMesh = new THREE.Points(geometry, material);
     scene.add(pointsMesh);
 
-    // Inner wireframe sphere for depth
+    // Inner wireframe sphere
     const wireGeo = new THREE.IcosahedronGeometry(radius * 0.98, 3);
     const wireMat = new THREE.MeshBasicMaterial({
       color: 0x059669,
@@ -124,11 +130,19 @@ const CyberGlobe = ({ className = '' }) => {
       ringGeo.dispose();
       ringMat.dispose();
       renderer.dispose();
-      if (renderer.domElement.parentElement === container) {
+      if (renderer.domElement && renderer.domElement.parentElement === container) {
         container.removeChild(renderer.domElement);
       }
     };
   }, []);
+
+  if (!isSupported) {
+    return (
+      <div className={`w-full h-full flex items-center justify-center ${className}`}>
+        <div className="w-64 h-64 rounded-full border-2 border-emerald-500/40 bg-emerald-950/20 shadow-[0_0_50px_rgba(16,185,129,0.3)] animate-pulse" />
+      </div>
+    );
+  }
 
   return <div ref={containerRef} className={`w-full h-full relative ${className}`} />;
 };

@@ -1,5 +1,5 @@
 import { Effect, EffectComposer, EffectPass, RenderPass } from 'postprocessing';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 const createTouchTexture = () => {
@@ -8,7 +8,7 @@ const createTouchTexture = () => {
   canvas.width = size;
   canvas.height = size;
   const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('2D context not available');
+  if (!ctx) return null;
   ctx.fillStyle = 'black';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   const texture = new THREE.Texture(canvas);
@@ -287,7 +287,6 @@ void main(){
 
   vec3 color = uColor;
 
-  // sRGB gamma correction - convert linear to sRGB for accurate color output
   vec3 srgbColor = mix(
     color * 12.92,
     1.055 * pow(color, vec3(1.0 / 2.4)) - 0.055,
@@ -310,14 +309,14 @@ const PixelBlast = ({
   patternScale = 3,
   patternDensity = 1.2,
   liquid = true,
-  liquidStrength = 0.12,
-  liquidRadius = 1.2,
+  liquidStrength = 0.1,
+  liquidRadius = 1,
   pixelSizeJitter = 0.5,
   enableRipples = true,
   rippleIntensityScale = 1.5,
   rippleThickness = 0.12,
   rippleSpeed = 0.4,
-  liquidWobbleSpeed = 5,
+  liquidWobbleSpeed = 4.5,
   autoPauseOffscreen = true,
   speed = 0.6,
   transparent = true,
@@ -327,6 +326,7 @@ const PixelBlast = ({
   const containerRef = useRef(null);
   const visibilityRef = useRef({ visible: true });
   const speedRef = useRef(speed);
+  const [isSupported, setIsSupported] = useState(true);
 
   const threeRef = useRef(null);
   const prevConfigRef = useRef(null);
@@ -359,12 +359,19 @@ const PixelBlast = ({
         threeRef.current = null;
       }
       const canvas = document.createElement('canvas');
-      const renderer = new THREE.WebGLRenderer({
-        canvas,
-        antialias,
-        alpha: true,
-        powerPreference: 'high-performance'
-      });
+      let renderer;
+      try {
+        renderer = new THREE.WebGLRenderer({
+          canvas,
+          antialias,
+          alpha: true,
+          powerPreference: 'high-performance'
+        });
+      } catch (e) {
+        setIsSupported(false);
+        return;
+      }
+
       renderer.domElement.style.width = '100%';
       renderer.domElement.style.height = '100%';
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -431,17 +438,19 @@ const PixelBlast = ({
       let liquidEffect;
       if (liquid) {
         touch = createTouchTexture();
-        touch.radiusScale = liquidRadius;
-        composer = new EffectComposer(renderer);
-        const renderPass = new RenderPass(scene, camera);
-        liquidEffect = createLiquidEffect(touch.texture, {
-          strength: liquidStrength,
-          freq: liquidWobbleSpeed
-        });
-        const effectPass = new EffectPass(camera, liquidEffect);
-        effectPass.renderToScreen = true;
-        composer.addPass(renderPass);
-        composer.addPass(effectPass);
+        if (touch) {
+          touch.radiusScale = liquidRadius;
+          composer = new EffectComposer(renderer);
+          const renderPass = new RenderPass(scene, camera);
+          liquidEffect = createLiquidEffect(touch.texture, {
+            strength: liquidStrength,
+            freq: liquidWobbleSpeed
+          });
+          const effectPass = new EffectPass(camera, liquidEffect);
+          effectPass.renderToScreen = true;
+          composer.addPass(renderPass);
+          composer.addPass(effectPass);
+        }
       }
       if (noiseAmount > 0) {
         if (!composer) {
@@ -466,6 +475,7 @@ const PixelBlast = ({
       if (composer) composer.setSize(renderer.domElement.width, renderer.domElement.height);
       const mapToPixels = e => {
         const rect = renderer.domElement.getBoundingClientRect();
+        if (!rect.width || !rect.height) return { fx: 0, fy: 0, w: 1, h: 1 };
         const scaleX = renderer.domElement.width / rect.width;
         const scaleY = renderer.domElement.height / rect.height;
         const fx = (e.clientX - rect.left) * scaleX;
@@ -569,7 +579,7 @@ const PixelBlast = ({
       t.composer?.dispose();
       t.renderer.dispose();
       t.renderer.forceContextLoss();
-      if (t.renderer.domElement.parentElement === container) container.removeChild(t.renderer.domElement);
+      if (t.renderer.domElement && t.renderer.domElement.parentElement === container) container.removeChild(t.renderer.domElement);
       threeRef.current = null;
     };
   }, [
@@ -594,6 +604,10 @@ const PixelBlast = ({
     color,
     speed
   ]);
+
+  if (!isSupported) {
+    return <div className={`w-full h-full relative overflow-hidden ${className ?? ''}`} style={style} />;
+  }
 
   return (
     <div
