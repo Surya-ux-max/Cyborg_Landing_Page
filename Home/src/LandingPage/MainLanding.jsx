@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import PixelBlast from './PixelBlast';
-import HeroSection from './HeroSection';
+import ForgeHeroSection from './ForgeHeroSection';
 import LiquidTextCapabilities from './LiquidTextCapabilities';
 import SecuritySection from './SecuritySection';
+import CtaSection from './CtaSection';
 
 const MainLanding = () => {
   const [activeSpecTab, setActiveSpecTab] = useState('processing');
@@ -30,58 +30,8 @@ const MainLanding = () => {
 
   return (
     <div className="relative min-h-screen w-full bg-black text-emerald-50 selection:bg-emerald-500 selection:text-black overflow-x-hidden">
-      {/* Interactive PixelBlast Background for Hero Section */}
-      <div className="absolute inset-0 z-0 h-[900px] pointer-events-auto opacity-35">
-        <PixelBlast
-          variant="circle"
-          pixelSize={6}
-          color="#10b981"
-          patternScale={3}
-          patternDensity={1.2}
-          pixelSizeJitter={0.5}
-          enableRipples={true}
-          rippleSpeed={0.4}
-          rippleThickness={0.12}
-          rippleIntensityScale={1.5}
-          liquid={true}
-          liquidStrength={0.12}
-          liquidRadius={1.2}
-          liquidWobbleSpeed={5}
-          speed={0.6}
-          edgeFade={0.35}
-          transparent={true}
-        />
-      </div>
-
-      {/* Ambient Grid Overlay */}
-      <div className="absolute inset-0 z-1 bg-[linear-gradient(to_right,#05966910_1px,transparent_1px),linear-gradient(to_bottom,#05966910_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
-
-      {/* Glow Orbs */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-500/15 blur-[180px] rounded-full pointer-events-none" />
-
-      {/* Navbar */}
-      <nav className="relative z-20 w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-        <div className="flex items-center space-x-3 cursor-pointer">
-          <div className="h-4 w-4 rounded bg-emerald-500 shadow-[0_0_12px_#10b981]" />
-          <span className="text-lg font-bold font-mono tracking-wider text-emerald-100">
-            SurveX <span className="text-emerald-400 font-normal text-sm">// CYBORG</span>
-          </span>
-        </div>
-
-        <div className="hidden md:flex items-center space-x-8 text-xs font-mono tracking-widest text-slate-400 uppercase">
-          <a href="#capabilities" className="hover:text-emerald-400 transition-colors">Capabilities</a>
-          <a href="#mesh" className="hover:text-emerald-400 transition-colors">Neural Mesh</a>
-          <a href="#security" className="hover:text-emerald-400 transition-colors">Security</a>
-          <a href="#specs" className="hover:text-emerald-400 transition-colors">Specifications</a>
-        </div>
-
-        <button className="px-6 py-2.5 text-xs font-mono uppercase tracking-wider text-black font-semibold bg-gradient-to-r from-emerald-400 to-teal-300 hover:from-emerald-300 hover:to-teal-200 rounded-lg shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:scale-[1.02] transition-all cursor-pointer">
-          Get Early Access
-        </button>
-      </nav>
-
-      {/* Modular Hero Section */}
-      <HeroSection />
+      {/* Reimagined Hero Section matching Reference UI */}
+      <ForgeHeroSection />
 
       {/* Scroll-Driven Liquid Text Capabilities Section */}
       <LiquidTextCapabilities />
@@ -177,28 +127,8 @@ const MainLanding = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-24 my-12">
-        <div className="relative rounded-3xl bg-gradient-to-b from-emerald-950/40 to-slate-950 border border-emerald-500/30 p-10 sm:p-16 text-center overflow-hidden shadow-[0_0_80px_rgba(5,150,105,0.15)]">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-emerald-500/10 blur-[140px] rounded-full pointer-events-none" />
-
-          <h2 className="relative z-10 text-3xl sm:text-5xl font-extrabold text-slate-100 tracking-tight max-w-2xl mx-auto">
-            Ready to Synchronize Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">Cognitive Potential?</span>
-          </h2>
-          <p className="relative z-10 mt-4 text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
-            Join leading researchers and engineers deploying SurveX OS across next-generation cybernetic infrastructure.
-          </p>
-
-          <div className="relative z-10 mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="w-full sm:w-auto px-8 py-4 text-xs font-mono uppercase tracking-widest font-bold text-black bg-gradient-to-r from-emerald-400 to-teal-300 rounded-xl shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:scale-105 transition-all cursor-pointer">
-              Initialize Neural Link
-            </button>
-            <button className="w-full sm:w-auto px-8 py-4 text-xs font-mono uppercase tracking-widest font-medium text-emerald-300 bg-slate-900/80 hover:bg-slate-900 border border-emerald-500/30 rounded-xl backdrop-blur-md transition-all cursor-pointer">
-              Schedule Integration Demo
-            </button>
-          </div>
-        </div>
-      </section>
+      {/* CTA Section with LetterGlitch Background */}
+      <CtaSection />
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-emerald-950 py-8 text-center text-xs font-mono text-slate-500">
