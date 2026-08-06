@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PixelBlast from './PixelBlast';
 import LiquidTextCapabilities from './LiquidTextCapabilities';
+import SecuritySection from './SecuritySection';
 
 const MainLanding = () => {
   const [activeSpecTab, setActiveSpecTab] = useState('processing');
@@ -226,6 +227,9 @@ const MainLanding = () => {
           </div>
         </div>
       </section>
+
+      {/* Standing Unbroken Security Section */}
+      <SecuritySection />
 
       {/* Specifications Section */}
       <section id="specs" className="relative z-10 max-w-7xl mx-auto px-6 py-24 border-t border-emerald-900/30">
